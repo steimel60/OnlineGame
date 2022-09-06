@@ -6,20 +6,20 @@ class Game:
         self.players = {}
         self.characters = {
             'Orlyn' : {
-                'Color' : (150,150,255),
-                'Selected' : False
+                'Selected' : False,
+                'ID'    : None
             },
             'Dyffros' : {
-                'Color' : (255,100,255),
-                'Selected' : False
+                'Selected' : False,
+                'ID'    : None
             },
             'Immis Wrax' : {
-                'Color' : (200,200,50),
-                'Selected' : False
+                'Selected' : False,
+                'ID'    : None
             },
             'Entei' : {
-                'Color' : (255,0,0),
-                'Selected' : False
+                'Selected' : False,
+                'ID'    : None
             }
         }
 
@@ -28,3 +28,7 @@ class Game:
 
     def remove_player(self, id):
         del self.players[id]
+        for character in self.characters:
+            if self.characters[character]["ID"] == id:
+                self.characters[character]["ID"] = None
+                self.characters[character]["Selected"] = False

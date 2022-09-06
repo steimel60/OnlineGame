@@ -65,21 +65,19 @@ def character_selection(network, player_id):
                         msg = chars[sel_index]
         network.send(msg)
         del chars
-    #Get updated game
+    #Get updated game and return selected character
     try:
         game = network.get()
         return game.players[player_id]
     except:
         print("Lost Connection")
 
-
 def main():
     run = True
     clock = pg.time.Clock()
     n = Network()
     player = character_selection(n, n.get_id())
-    n.send("hi")
-    print("Run game")
+    n.send("hi") #game expects something
     while run:
         clock.tick(60)
         #Get updated game

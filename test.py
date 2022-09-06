@@ -1,3 +1,5 @@
+import sys
+
 class Base():
     def __init__(self, name, level):
         self.name = name
@@ -18,3 +20,5 @@ class Dragonborn(Base):
 bob = Dragonborn(Base("bob", 5),"silver")
 bob.hi()
 bob.print_level()
+
+print(sys.version)

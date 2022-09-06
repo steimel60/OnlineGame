@@ -20,12 +20,7 @@ try:
 except socket.error as e:
     print(e)
 
-
-
 game = Game() #Initialize Game
-colors = [(255,0,0),(0,255,0),(0,0,255),(255,255,0),(0,255,255)]
-
-
 
 def handle_client(conn, addr, player_id):
     """
@@ -33,9 +28,8 @@ def handle_client(conn, addr, player_id):
     """
     print(f"[NEW CONNECTION] {addr} connected.")
     #Send data for Client initialization
-    send_client(conn, player_id) #send ID
-    send_client(conn, game)                    #send game
-    print("Start Connection")
+    send_client(conn, player_id) #send ID to Network
+    send_client(conn, game)      #send game to character selection
     connected = True
     while connected:
         #Get data from client
@@ -46,13 +40,16 @@ def handle_client(conn, addr, player_id):
         data = pickle.loads(conn.recv(msg_len)) #Load pickled data
         #Update Game
         if data == DISCONNECT_MSG:
-            game.remove_player(player_id)
-            connected = False
+            #If player disconnected
+            game.remove_player(player_id) #Remove player from game
+            connected = False             #End loop
         elif isinstance(data, CharacterSelector):
-            game.characters[data.name]['Selected'] = True
-            game.players[player_id] = Player(playable_characters[data.name], player_id)
-
+            #If player chose a character
+            game.characters[data.name]['Selected'] = True   #Mark character as selected
+            game.characters[data.name]['ID'] = player_id    #Track who selected the character
+            game.players[player_id] = Player(playable_characters[data.name], player_id) #Create player as selected character
         elif isinstance(data, Player):
+            #If player sends normal update
             game.update_player(data, player_id)
         #Send client updated game
         send_client(conn, game)

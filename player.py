@@ -26,6 +26,7 @@ class Player(Character):
     def __init__(self,Character,id):
         super().__init__(Character.x,Character.y,Character.width,Character.height,Character.color)
         self.id = id
+        
     def move(self):
         keys = pg.key.get_pressed()
 
